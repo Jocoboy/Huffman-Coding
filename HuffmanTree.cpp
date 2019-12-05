@@ -1,6 +1,15 @@
 #include "HuffmanTree.h"
 #include "Comparator.hpp"
 
+string HuffmanTree::get_inner_text()
+{
+    ifstream file("original_text.txt", ios::in);
+    string input_text;
+    file >> input_text;
+    file.close();
+    return input_text;
+}
+
 HuffmanTree::HuffmanTree(string input_text) : original_text(input_text)
 {
     encoded_string = "";
@@ -101,6 +110,17 @@ void HuffmanTree::inorder_traversal(TreeNode *local_root_node)
     }
 }
 
+void HuffmanTree::inorder_traversal(TreeNode *local_root_node, ofstream &file)
+{
+    if (local_root_node != NULL)
+    {
+        inorder_traversal(local_root_node->get_lChild(), file);
+        //file << *local_root_node << " ";
+        file << local_root_node->get_ch() << " " << local_root_node->get_tag() << " " << local_root_node->get_freq() << endl;
+        inorder_traversal(local_root_node->get_rChild(), file);
+    }
+}
+
 void HuffmanTree::find_path(TreeNode *local_root_node, string path)
 {
     if (local_root_node->get_lChild() == NULL || local_root_node->get_rChild() == NULL)
@@ -140,6 +160,14 @@ void HuffmanTree::print_encode_table()
     }
 }
 
+void HuffmanTree::print_encode_table(ofstream &file)
+{
+    for (auto it = encode_table.begin(); it != encode_table.end(); it++)
+    {
+        file << it->first << " " << it->second << endl;
+    }
+}
+
 void HuffmanTree::print_encoded_string()
 {
     cout << encoded_string << endl;
@@ -170,4 +198,28 @@ void HuffmanTree::print_decoded_text()
 void HuffmanTree::print_original_text()
 {
     cout << original_text << endl;
+}
+
+void HuffmanTree::save_as_txt()
+{
+    ofstream file("huffman_tree.txt", ios::app);
+    if (file.is_open())
+    {
+        inorder_traversal(root_node, file);
+        print_encode_table(file);
+        file.close();
+    }
+}
+
+void HuffmanTree::append_to_txt()
+{
+    ofstream file("original_text.txt", ios::app);
+    if (file.is_open())
+    {
+        file << '\n'
+             << encoded_string;
+        file << '\n'
+             << decoded_text;
+        file.close();
+    }
 }

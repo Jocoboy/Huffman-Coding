@@ -19,7 +19,7 @@ ostream &operator<<(ostream &os, const TreeNode &n)
     cout << n.ch << " " << n.tag << " " << n.freq << endl;
 }
 
-int TreeNode::get_ch() const
+char TreeNode::get_ch() const
 {
     return this->ch;
 }
