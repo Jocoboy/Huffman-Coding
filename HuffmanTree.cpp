@@ -3,8 +3,14 @@
 
 string HuffmanTree::get_inner_text()
 {
-    ifstream file("original_text.txt", ios::in);
-    string input_text;
+    ifstream file("F:\\Github\\repositories\\Huffman-Coding\\original_text.txt", ios::in);
+    string input_text = "";
+    while (!file.eof())
+    {
+        string each_line;
+        getline(file, each_line);
+        input_text += each_line+'\n';
+    }
     file >> input_text;
     file.close();
     return input_text;
@@ -202,7 +208,7 @@ void HuffmanTree::print_original_text()
 
 void HuffmanTree::save_as_txt()
 {
-    ofstream file("huffman_tree.txt", ios::app);
+    ofstream file("F:\\Github\\repositories\\Huffman-Coding\\huffman_tree.txt", ios::app);
     if (file.is_open())
     {
         inorder_traversal(root_node, file);
@@ -213,7 +219,7 @@ void HuffmanTree::save_as_txt()
 
 void HuffmanTree::append_to_txt()
 {
-    ofstream file("original_text.txt", ios::app);
+    ofstream file("F:\\Github\\repositories\\Huffman-Coding\\original_text.txt", ios::app);
     if (file.is_open())
     {
         file << '\n'
