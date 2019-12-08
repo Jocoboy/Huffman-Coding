@@ -22,5 +22,6 @@ private slots:
 private:
     QAction *openAction;
     Ui::MainWindow *ui;
+    QWidget *widget;
 };
 #endif // MAINWINDOW_H
