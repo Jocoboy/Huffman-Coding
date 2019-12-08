@@ -1,9 +1,9 @@
 #include "HuffmanTree.h"
 #include "Comparator.hpp"
 
-string HuffmanTree::get_inner_text()
+string HuffmanTree::get_inner_text(string source_path)
 {
-    ifstream file("F:\\Github\\repositories\\Huffman-Coding\\original_text.txt", ios::in);
+    ifstream file(source_path, ios::in);
     string input_text = "";
     while (!file.eof())
     {
@@ -206,9 +206,9 @@ void HuffmanTree::print_original_text()
     cout << original_text << endl;
 }
 
-void HuffmanTree::save_as_txt()
+void HuffmanTree::save_as_txt(string saving_path)
 {
-    ofstream file("F:\\Github\\repositories\\Huffman-Coding\\huffman_tree.txt", ios::app);
+    ofstream file(saving_path, ios::out);
     if (file.is_open())
     {
         inorder_traversal(root_node, file);
@@ -217,9 +217,9 @@ void HuffmanTree::save_as_txt()
     }
 }
 
-void HuffmanTree::append_to_txt()
+void HuffmanTree::append_to_txt(string source_path)
 {
-    ofstream file("F:\\Github\\repositories\\Huffman-Coding\\original_text.txt", ios::app);
+    ofstream file(source_path, ios::app);
     if (file.is_open())
     {
         file << '\n'

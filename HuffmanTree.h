@@ -20,7 +20,7 @@ private:
     TreeNode *build_tree();
     
 public:
-    static string get_inner_text();
+    static string get_inner_text(string);
     // HuffmanTree():HuffmanTree(get_inner_text()){};
     HuffmanTree(string);
     void inorder_traversal(TreeNode *);
@@ -33,6 +33,6 @@ public:
     void print_encoded_string();
     void print_decoded_text();
     void print_original_text();
-    void save_as_txt();
-    void append_to_txt();
+    void save_as_txt(string);
+    void append_to_txt(string);
 };
