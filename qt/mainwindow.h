@@ -23,5 +23,6 @@ private:
     QAction *openAction;
     Ui::MainWindow *ui;
     QWidget *widget;
+    QDialog *dialog;
 };
 #endif // MAINWINDOW_H

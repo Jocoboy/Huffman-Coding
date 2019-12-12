@@ -9,6 +9,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QSize>
+#include <QTextEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,6 +21,13 @@ MainWindow::MainWindow(QWidget *parent)
     widget = new QWidget(this);
     this->setCentralWidget(widget);
 
+    dialog = new QDialog(this);
+    dialog->setModal(false);
+    dialog->setWindowTitle("Huffman Tree");
+    dialog->resize(800,600);
+    dialog->setGeometry(400,300,800,600);
+    dialog->setWhatsThis("Huffman Tree Visualization");
+
     QLabel *label1 = new QLabel(widget);
     label1->setText("Source path:");
     QLabel *label2 = new QLabel(widget);
@@ -27,9 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QLineEdit *edit1 = new QLineEdit(widget);
     edit1->setMinimumSize(QSize(400,10));
-    edit1->setText("F:\\Github\\repositories\\Huffman-Coding\\");
+    edit1->setText("F:\\Github\\repositories\\Huffman-Coding\\o_t.txt");
     QLineEdit *edit2 = new QLineEdit(widget);
-    edit2->setText("F:\\Github\\repositories\\Huffman-Coding\\");
+    edit2->setText("F:\\Github\\repositories\\Huffman-Coding\\h_t.txt");
 
     QGridLayout *layout = new QGridLayout(widget);
     layout->setRowStretch(0,1);
@@ -77,4 +85,13 @@ void MainWindow::on_pushButton_clicked()
     QMessageBox msg;
     msg.setText("Successfully Launched!");
     msg.exec();
+
+
+    QTextEdit *edit = new QTextEdit();
+    edit->setParent(dialog);
+    edit->resize(800,600);
+    edit->setReadOnly(true);
+    edit->setFixedSize(edit->width(),edit->height());
+
+    dialog->show();
 }
