@@ -1,15 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "F:\Github\repositories\Huffman-Coding\HuffmanTree.h"
-#include <QHBoxLayout>
 #include <QGridLayout>
+#include <QHBoxLayout>
+#include <QSize>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QAction>
 #include <QMessageBox>
-#include <QSize>
-#include <QTextEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("Huffman Coding");
 
-    widget = new QWidget(this);
-    this->setCentralWidget(widget);
+    centralWidget = new QWidget(this);
+    this->setCentralWidget(centralWidget);
 
     dialog = new QDialog(this);
     dialog->setModal(false);
@@ -28,37 +26,31 @@ MainWindow::MainWindow(QWidget *parent)
     dialog->setGeometry(400,300,800,600);
     dialog->setWhatsThis("Huffman Tree Visualization");
 
-    QLabel *label1 = new QLabel(widget);
+    QLabel *label1 = new QLabel(centralWidget);
     label1->setText("Source path:");
-    QLabel *label2 = new QLabel(widget);
+    QLabel *label2 = new QLabel(centralWidget);
     label2->setText("Saving path:");
 
-    QLineEdit *edit1 = new QLineEdit(widget);
+    QLineEdit *edit1 = new QLineEdit(centralWidget);
     edit1->setMinimumSize(QSize(400,10));
-    edit1->setText("F:\\Github\\repositories\\Huffman-Coding\\o_t.txt");
-    QLineEdit *edit2 = new QLineEdit(widget);
-    edit2->setText("F:\\Github\\repositories\\Huffman-Coding\\h_t.txt");
+    edit1->setText("F:\\Github\\repositories\\Huffman-Coding\\original_text.txt");
+    QLineEdit *edit2 = new QLineEdit(centralWidget);
+    edit2->setText("F:\\Github\\repositories\\Huffman-Coding\\huffman_tree.txt");
+    edit2->setMinimumSize(QSize(400,10));
 
-    QGridLayout *layout = new QGridLayout(widget);
-    layout->setRowStretch(0,1);
-    layout->setColumnStretch(3,1);
-    layout->addWidget(label1, 1, 1);
-    layout->addWidget(edit1,1,2);
-    layout->addWidget(label2, 2, 1);
-    layout->addWidget(edit2, 2, 2);
+    QGridLayout *layout = new QGridLayout(centralWidget);
+    layout->addWidget(label1, 0, 0,Qt::AlignLeft);
+    layout->addWidget(edit1, 0, 1);
+    layout->addWidget(label2, 1, 0,Qt::AlignLeft);
+    layout->addWidget(edit2, 1, 1);
 
     QHBoxLayout *hbox;
-    layout->addLayout(hbox = new QHBoxLayout, 3, 2);
-    hbox->addStretch(1);
+    layout->addLayout(hbox = new QHBoxLayout, 2, 0);
     QPushButton *btn = new QPushButton("Launch");
-    //btn->setObjectName("pushButton");
     connect(btn, SIGNAL(clicked()),SLOT(on_pushButton_clicked()));
     hbox->addWidget(btn);
 
-    layout->setRowStretch(4,1);
-    layout->setColumnStretch(0,1);
-
-    widget->setLayout(layout);
+    centralWidget->setLayout(layout);
 }
 
 MainWindow::~MainWindow()
@@ -85,13 +77,6 @@ void MainWindow::on_pushButton_clicked()
     QMessageBox msg;
     msg.setText("Successfully Launched!");
     msg.exec();
-
-
-    QTextEdit *edit = new QTextEdit();
-    edit->setParent(dialog);
-    edit->resize(800,600);
-    edit->setReadOnly(true);
-    edit->setFixedSize(edit->width(),edit->height());
 
     dialog->show();
 }

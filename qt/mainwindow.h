@@ -20,9 +20,9 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    QAction *openAction;
     Ui::MainWindow *ui;
-    QWidget *widget;
+    QWidget *centralWidget;
+    QAction *openAction;
     QDialog *dialog;
 };
 #endif // MAINWINDOW_H
