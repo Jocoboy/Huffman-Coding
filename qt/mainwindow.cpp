@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QPainter>
+#include <QPaintEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,13 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     centralWidget = new QWidget(this);
     this->setCentralWidget(centralWidget);
-
-    dialog = new QDialog(this);
-    dialog->setModal(false);
-    dialog->setWindowTitle("Huffman Tree");
-    dialog->resize(800,600);
-    dialog->setGeometry(400,300,800,600);
-    dialog->setWhatsThis("Huffman Tree Visualization");
 
     QLabel *label1 = new QLabel(centralWidget);
     label1->setText("Source path:");
@@ -71,12 +66,41 @@ void MainWindow::on_pushButton_clicked()
     hf_2.print_encode_table();
     hf_2.decode();
     hf_2.print_decoded_text();
-    hf_2.save_as_txt(Qsaving_path.toStdString());
-    hf_2.append_to_txt(Qsource_path.toStdString());
+//    hf_2.save_as_txt(Qsaving_path.toStdString());
+//    hf_2.append_to_txt(Qsource_path.toStdString());
 
     QMessageBox msg;
     msg.setText("Successfully Launched!");
     msg.exec();
 
+
+
+    dialog = new QDialog(this);
+    renderWidget = new treerenderwidget(dialog);
+    dialog->setWindowTitle("Huffman Tree");
+    dialog->resize(800,600);
+    dialog->setGeometry(400,300,800,600);
+    dialog->setWhatsThis("Huffman Tree Visualization");
+    renderWidget->setFixedSize(800,600);
+    renderWidget->show();
     dialog->show();
+}
+
+void MainWindow::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+
+    QPainter painter(this);
+    int w = this->width();
+    int h = this->height();
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    QRadialGradient radial(w/2, h/2, qMax(w/2,h/2), w/2, h/2);
+    radial.setColorAt(0, Qt::white);
+    radial.setColorAt(1, Qt::gray);
+    radial.setSpread(QGradient::ReflectSpread);
+
+    painter.setBrush(radial);
+    painter.drawRect(this->rect());
 }

@@ -19,13 +19,15 @@ SOURCES += \
     ../HuffmanTree.cpp \
     ../TreeNode.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    treerenderwidget.cpp
 
 HEADERS += \
     ../Comparator.hpp \
     ../HuffmanTree.h \
     ../TreeNode.h \
-    mainwindow.h
+    mainwindow.h \
+    treerenderwidget.h
 
 FORMS += \
     mainwindow.ui
