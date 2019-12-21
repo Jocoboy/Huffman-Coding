@@ -12,8 +12,11 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    const int DIAMETER = 50;
-    const int HEIGHT = 30;
+    const int DIAMETER = 15;
+    const int VERTICAL_GAP = 30;
+    const int HORIZONTAL_GAP = 40;
+    const int BORDER_GAP = 20;
+    void drawRecursively(QPainter& painter,int x, int y, int curDepth,const int tarDepth);
 };
 
 

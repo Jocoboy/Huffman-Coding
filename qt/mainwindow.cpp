@@ -81,8 +81,7 @@ void MainWindow::on_pushButton_clicked()
     dialog->resize(800,600);
     dialog->setGeometry(400,300,800,600);
     dialog->setWhatsThis("Huffman Tree Visualization");
-    renderWidget->setFixedSize(800,600);
-    renderWidget->show();
+//    dialog->setWindowState(Qt::WindowMaximized);
     dialog->show();
 }
 
