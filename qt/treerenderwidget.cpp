@@ -2,11 +2,13 @@
 
 #include <iostream>
 #include <QPainter>
+#include <QFont>
+#include <QApplication>
 
 treerenderwidget::treerenderwidget(QWidget *parent):
     QWidget(parent)
 {
-    this->setFixedSize(800,600);
+    this->setFixedSize(800*stiffness,600*stiffness);
 //    this->setWindowState(Qt::WindowMaximized);
     this->show();
 }
@@ -22,12 +24,15 @@ void treerenderwidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     QPen pen;
     pen.setColor(Qt::black);
-    pen.setWidth(4);
+    pen.setWidth(1);
     QBrush brush;
     brush.setColor(Qt::green);
     brush.setStyle(Qt::SolidPattern);
+    QFont font("微软雅黑",10,QFont::Thin,false);
+    font.setLetterSpacing(QFont::AbsoluteSpacing,10);
     painter.setPen(pen);
     painter.setBrush(brush);
+    painter.setFont(font);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
 /*  root=>[(W/2-DIAMETER/2),BORDER_GAP]
@@ -37,7 +42,7 @@ void treerenderwidget::paintEvent(QPaintEvent *event)
 
     int curDepth = 0;
     int tarDepth = 5;
-    drawRecursively(painter,W/2-DIAMETER/2,BORDER_GAP,curDepth,tarDepth);
+    drawRecursively(painter,W/2-DIAMETER/2,BORDER_GAP,curDepth,tarDepth,this->HORIZONTAL_GAP);
 
 //    painter.drawLine(W/2-DIAMETER/2,BORDER_GAP,W/2-DIAMETER/2-HORIZONTAL_GAP,BORDER_GAP+VERTICAL_GAP);
 //    painter.drawLine(W/2-DIAMETER/2,BORDER_GAP,W/2-DIAMETER/2+HORIZONTAL_GAP,BORDER_GAP+VERTICAL_GAP);
@@ -61,20 +66,25 @@ void treerenderwidget::paintEvent(QPaintEvent *event)
     std::cout << "OK!" << '\n';
 }
 
-void treerenderwidget::drawRecursively(QPainter &painter, int x, int y,int curDepth,const int tarDepth)
+void treerenderwidget::drawRecursively(QPainter &painter, int x, int y,int curDepth,const int tarDepth,int hGap)
 {
 
 
-    painter.drawEllipse(x-DIAMETER/2,y-DIAMETER/2,DIAMETER,DIAMETER);
-    painter.drawLine(x,y,x-HORIZONTAL_GAP,y+VERTICAL_GAP);
-    painter.drawLine(x,y,x+HORIZONTAL_GAP,y+VERTICAL_GAP);
+
 
     if(curDepth == tarDepth){
+        painter.drawEllipse(x-DIAMETER/2,y-DIAMETER/2,DIAMETER,DIAMETER);
         return;
     }
     else{
+        painter.drawLine(x,y,x-hGap,y+VERTICAL_GAP);
+        painter.drawLine(x,y,x+hGap,y+VERTICAL_GAP);
+        painter.drawEllipse(x-DIAMETER/2,y-DIAMETER/2,DIAMETER,DIAMETER);
 
-        drawRecursively(painter,x-HORIZONTAL_GAP,y+VERTICAL_GAP,curDepth+1,tarDepth);
-        drawRecursively(painter,x+HORIZONTAL_GAP,y+VERTICAL_GAP,curDepth+1,tarDepth);
+        painter.drawText(x-hGap/2-DIAMETER/2,y+VERTICAL_GAP/2,tr("0"));
+        painter.drawText(x+hGap/2,y+VERTICAL_GAP/2,tr("1"));
+
+        drawRecursively(painter,x-hGap,y+VERTICAL_GAP,curDepth+1,tarDepth,hGap/2);
+        drawRecursively(painter,x+hGap,y+VERTICAL_GAP,curDepth+1,tarDepth,hGap/2);
     }
 }
