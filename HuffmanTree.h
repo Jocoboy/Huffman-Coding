@@ -19,10 +19,13 @@ private:
     map<char, string> encode_table;
     TreeNode *build_tree();
     
+    
 public:
     static string get_inner_text(string);
     // HuffmanTree():HuffmanTree(get_inner_text()){};
     HuffmanTree(string);
+    TreeNode* get_root();
+    map<char, string> get_encode_table();
     void inorder_traversal(TreeNode *);
     void inorder_traversal(TreeNode *,ofstream&);
     void find_path(TreeNode *, string);

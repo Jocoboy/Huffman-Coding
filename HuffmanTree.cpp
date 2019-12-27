@@ -9,11 +9,19 @@ string HuffmanTree::get_inner_text(string source_path)
     {
         string each_line;
         getline(file, each_line);
-        input_text += each_line+'\n';
+        input_text += each_line;
     }
     file >> input_text;
     file.close();
     return input_text;
+}
+
+TreeNode* HuffmanTree::get_root(){
+    return this->root_node;
+}
+
+map<char, string> HuffmanTree::get_encode_table(){
+    return this->encode_table;
 }
 
 HuffmanTree::HuffmanTree(string input_text) : original_text(input_text)
@@ -64,7 +72,7 @@ TreeNode *HuffmanTree::build_tree()
         TreeNode *temp_node = *node_list.begin();
         // node_list.erase(node_list.begin());
         node_list.pop_front();
-        return new TreeNode(NULL, 0, temp_node->get_freq(), temp_node, NULL);
+        return new TreeNode('$', 0, temp_node->get_freq(), temp_node, NULL);
     }
 
     TreeNode *root_node = NULL;
@@ -81,11 +89,11 @@ TreeNode *HuffmanTree::build_tree()
         r_node->set_tag(1);
         if (node_list.size() == 0)
         {
-            root_node = new TreeNode(NULL, 0, l_node->get_freq() + r_node->get_freq(), l_node, r_node);
+            root_node = new TreeNode('$', 2, l_node->get_freq() + r_node->get_freq(), l_node, r_node);
         }
         else
         {
-            TreeNode *temp_node = new TreeNode(NULL, 0, l_node->get_freq() + r_node->get_freq(), l_node, r_node);
+            TreeNode *temp_node = new TreeNode('$', 0, l_node->get_freq() + r_node->get_freq(), l_node, r_node);
             if (temp_node->get_freq() > (*--node_list.end())->get_freq())
             {
                 node_list.push_back(temp_node);
@@ -111,7 +119,7 @@ void HuffmanTree::inorder_traversal(TreeNode *local_root_node)
     if (local_root_node != NULL)
     {
         inorder_traversal(local_root_node->get_lChild());
-        cout << *local_root_node << " ";
+        cout << *local_root_node;
         inorder_traversal(local_root_node->get_rChild());
     }
 }
@@ -122,20 +130,34 @@ void HuffmanTree::inorder_traversal(TreeNode *local_root_node, ofstream &file)
     {
         inorder_traversal(local_root_node->get_lChild(), file);
         //file << *local_root_node << " ";
-        file << local_root_node->get_ch() << " " << local_root_node->get_tag() << " " << local_root_node->get_freq() << endl;
+        file << local_root_node->get_ch() << " " << local_root_node->get_tag() << " " << local_root_node->get_freq() << " " << local_root_node->get_code()<< endl;
         inorder_traversal(local_root_node->get_rChild(), file);
     }
 }
 
 void HuffmanTree::find_path(TreeNode *local_root_node, string path)
-{
+{   
+   
     if (local_root_node->get_lChild() == NULL || local_root_node->get_rChild() == NULL)
     {
         path.push_back((char)(local_root_node->get_tag() + '0'));
+        //Addons
+        if(local_root_node->get_tag() == 2){
+            local_root_node->set_code("-1");
+        }else{
+            local_root_node->set_code(path.substr(1));
+        }
         this->encode_table.insert(make_pair(local_root_node->get_ch(), path.substr(1)));
         return;
     }
-    path.push_back((char)(local_root_node->get_tag() + '0'));
+    path.push_back((char)(local_root_node->get_tag() + '0')); 
+    //Addons
+    if(local_root_node->get_tag() == 2){
+        local_root_node->set_code("-1");
+    }else{
+        local_root_node->set_code(path.substr(1));
+    }
+    
     if (local_root_node->get_lChild() != NULL)
     {
         find_path(local_root_node->get_lChild(), path);
@@ -212,7 +234,7 @@ void HuffmanTree::save_as_txt(string saving_path)
     if (file.is_open())
     {
         inorder_traversal(root_node, file);
-        print_encode_table(file);
+        // print_encode_table(file);
         file.close();
     }
 }

@@ -77,11 +77,23 @@ void MainWindow::on_pushButton_clicked()
 
     dialog = new QDialog(this);
     renderWidget = new treerenderwidget(dialog);
+    renderWidget->source_path = Qsource_path.toStdString();
+//    std::cout << renderWidget->source_path << std::endl;
+    renderWidget->saving_path = Qsaving_path.toStdString();
+//    std::cout << renderWidget->saving_path << std::endl;
+    renderWidget->read_file();
     dialog->setWindowTitle("Huffman Tree");
     dialog->resize(800,600);
     dialog->setGeometry(400,300,800,600);
     dialog->setWhatsThis("Huffman Tree Visualization");
     dialog->setWindowState(Qt::WindowMaximized);
+    Qt::WindowFlags windowFlag  = Qt::Dialog;
+       windowFlag                  |= Qt::WindowMinimizeButtonHint;
+       windowFlag                  |= Qt::WindowMaximizeButtonHint;
+       windowFlag                  |= Qt::WindowCloseButtonHint;
+
+    dialog->setWindowFlags(windowFlag);
+
     dialog->show();
 }
 

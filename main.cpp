@@ -4,13 +4,14 @@
 int main(int argc, char const *argv[])
 {
     /************************module test_1****************************/
-    // HuffmanTree hf_1("aaabbbeeedacfwwwwddd");
-    // hf_1.print_original_text();
-    // hf_1.encode();
-    // hf_1.print_encoded_string();
-    // hf_1.print_encode_table();
-    // hf_1.decode();
-    // hf_1.print_decoded_text();
+    HuffmanTree hf_1("@Jocoboy");
+    hf_1.print_original_text();
+    hf_1.encode();
+    hf_1.print_encoded_string();
+    hf_1.print_encode_table();
+    hf_1.decode();
+    hf_1.print_decoded_text();
+    hf_1.inorder_traversal(hf_1.get_root());
     // hf_1.save_as_txt();
     /************************module test_1****************************/
 

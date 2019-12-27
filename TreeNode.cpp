@@ -16,7 +16,7 @@ bool TreeNode::operator<(const TreeNode &b)
 
 ostream &operator<<(ostream &os, const TreeNode &n)
 {
-    cout << n.ch << " " << n.tag << " " << n.freq << endl;
+    cout << n.ch << " " << n.tag << " " << n.freq << " " << n.code << endl;
 }
 
 char TreeNode::get_ch() const
@@ -39,6 +39,11 @@ int TreeNode::get_freq() const
     return this->freq;
 }
 
+string TreeNode::get_code() const
+{
+    return this->code;
+}
+
 TreeNode *TreeNode::get_lChild()
 {
     return this->lChild;
@@ -47,4 +52,9 @@ TreeNode *TreeNode::get_lChild()
 TreeNode *TreeNode::get_rChild()
 {
     return this->rChild;
+}
+
+void TreeNode::set_code(string code)
+{
+    this->code = code;
 }
